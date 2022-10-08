@@ -1,38 +1,37 @@
 import React, { useState, useEffect } from 'react'
 import { Box, Button, Stack, TextField, Typography } from '@mui/material';
-import { excerciseOption, excerciseOptions, fetchData } from '../utils/fetchData';
+import { exerciseOptions, fetchData } from '../utils/fetchData';
 import HorizontalScrollbar from './HorizontalScrollbar';
 
 
-const SearchExercises = ({ setExcercises, bodyPart, setBodyPart }) => {
+const SearchExercises = ({ setExercises, bodyPart, setBodyPart }) => {
   const [search, setSearch] = useState(''); 
-  // const [excercises, setExcercises] = useState([]);
   const [bodyParts, setBodyParts] = useState([]);
 
 
   useEffect(() => {
-    const fetchExcercisesData = async () => {
-      const bodyPartsData = await fetchData('https://exercisedb.p.rapidapi.com/exercises/bodyPartList', excerciseOptions);
+    const fetchExercisesData = async () => {
+      const bodyPartsData = await fetchData('https://exercisedb.p.rapidapi.com/exercises/bodyPartList', exerciseOptions);
 
       setBodyParts(['all' , ...bodyPartsData]);
     }
 
-    fetchExcercisesData();
+    fetchExercisesData();
   }, [])
 
   const handleSearch = async () => {
     if(search) {
-      const excercisesData = await fetchData('https://exercisedb.p.rapidapi.com/exercises', excerciseOptions);
+      const exercisesData = await fetchData('https://exercisedb.p.rapidapi.com/exercises', exerciseOptions);
       
-      const searchedExcercises = excercisesData.filter(
-     (excercise) => excercise.name.toLowerCase().includes(search)
-     || excercise.target.toLowerCase().includes(search)
-     || excercise.equipment.toLowerCase().includes(search)
-     || excercise.bodyPart.toLowerCase().includes(search)
+      const searchedExercises = exercisesData.filter(
+     (exercise) => exercise.name.toLowerCase().includes(search)
+     || exercise.target.toLowerCase().includes(search)
+     || exercise.equipment.toLowerCase().includes(search)
+     || exercise.bodyPart.toLowerCase().includes(search)
     );
 
     setSearch('');
-    setExcercises(searchedExcercises);
+    setExercises(searchedExercises);
     }
   }
   return (
@@ -41,7 +40,7 @@ const SearchExercises = ({ setExcercises, bodyPart, setBodyPart }) => {
       <Typography fontWeight={700} sx={{
         fontSize:  {lg: '44px', xs: '30px'}}}
         mb="50px" textAlign="center">
-        Awesome Excercises You <br />
+        Awesome Exercises You <br />
         Should Know
       </Typography>
       <Box position="relative" mb="72px">
@@ -59,7 +58,7 @@ const SearchExercises = ({ setExcercises, bodyPart, setBodyPart }) => {
         height="76px"
         value={search}
         onChange={(e) => setSearch(e.target.value.toLowerCase())}
-        placeholder="Search Excercises"
+        placeholder="Search Exercises"
         type="text"
         />
         <Button className="search-btn"
